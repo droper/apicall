@@ -39,14 +39,17 @@ def select_response(response_list):
         add["oop_max"][0] += response["oop_max"]
 
     # Obtain the weight for each parameter
+    total = sum(map(lambda item: item[0], add.values()))
     for key in add.keys():
-        add[key][1] = add[key][0]/sum(map(lambda item: item[0], add.values()))
+        add[key][1] = add[key][0]/total
 
     # Calculate the value of each response
     value = 0
     final_response = None
     for response in response_list:
-        temp = response["stop_loss"]*add["stop_loss"][1]/(response["deductible"]*add["deductible"][1] + response["oop_max"]*add["oop_max"][1])
+        dividend = response["stop_loss"]*add["stop_loss"][1]
+        divisor = response["deductible"]*add["deductible"][1] + response["oop_max"]*add["oop_max"][1]
+        temp = dividend/divisor
         if temp > value:
             value = temp
             final_response = response
