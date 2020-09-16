@@ -6,8 +6,8 @@ Select the proper response.
 def select_response(response_list):
     """
     Function that selects between all the responses from the api functions.
-    What we do is to compare the three values (deductible, stop_loss and oop_max)
-    with the following criteria:
+    What we do is to compare the three values (deductible, stop_loss and
+    oop_max) with the following criteria:
 
     deductible: The less the better for the patient.
     stop_loss: The bigger the best for the patient.
@@ -41,15 +41,16 @@ def select_response(response_list):
     # Obtain the weight for each parameter
     total = sum(map(lambda item: item[0], add.values()))
     for key in add.keys():
-        add[key][1] = add[key][0]/total
+        add[key][1] = add[key][0] / total
 
     # Calculate the value of each response
     value = 0
     final_response = None
     for response in response_list:
-        dividend = response["stop_loss"]*add["stop_loss"][1]
-        divisor = response["deductible"]*add["deductible"][1] + response["oop_max"]*add["oop_max"][1]
-        temp = dividend/divisor
+        dividend = response["stop_loss"] * add["stop_loss"][1]
+        divisor = (response["deductible"] * add["deductible"][1] +
+                   response["oop_max"] * add["oop_max"][1])
+        temp = dividend / divisor
         if temp > value:
             value = temp
             final_response = response
@@ -61,7 +62,8 @@ def api_call(api):
     """
     Calling the different api functions.
 
-    Can be more generic by using a predefined list of functions to call for example.
+    Can be more generic by using a predefined list of functions to call
+    for example.
 
     :param api: Api object
     :return: list of responses
@@ -75,13 +77,11 @@ def api_call(api):
 
     return response_list
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     from api import Api
 
     response_list = api_call(Api())
 
     final_response = select_response(response_list)
     print(final_response)
-
-
