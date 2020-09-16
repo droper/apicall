@@ -26,7 +26,7 @@ def select_response(response_list):
     This can be more generic (big amount!!) but time constraint make us wrote
     the code in this hardcoded way.
 
-    :param response: The responses of the functions
+    :param response_list: The responses of the functions
     :return: the selected response.
     """
 
